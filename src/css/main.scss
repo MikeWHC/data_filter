@@ -1,0 +1,21 @@
+$color_head: #7828B4;
+$color_tag: #9013FE;
+$color_main: #F2F2F2;
+$color_aside: #EBEBEB;
+$color_small: #D7D7D7;
+$color_light_tag: #9B9B9B;
+$color_card: #FFFFFF;
+$color_regular: #000;
+
+body{
+    // background-color: #000;
+}
+.head{
+    background-color: #ffffff;
+}
+.aside{
+    background-color: $color_aside;
+}
+.main{
+    background: $color_main;
+}

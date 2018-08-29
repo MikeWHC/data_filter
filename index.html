@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row head">
             <div class="col-sm-3 logo"><img src="./public/images/logo.jpg" alt=""></div>
             <div class="col-sm-6 search">
@@ -20,83 +20,40 @@
             </div>
         </div>
         <div class="row body">
-            <div class="col-sm-3 aside">
+            <div class="col-sm-2 aside">
                 <div class="row location">
                     <div class="col">
-                        <div class="row title">Location</div>
-                        <div class="row">
-                            <select class="col form-control" name="" id=""></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row date">
-                    <div class="col">
-                        <div class="row title">Date</div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col-sm-3">from</div>
-                                    <div class="col-sm-9"><input type="date" name="" id=""></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">to</div>
-                                    <div class="col-sm-9"><input type="date" name="" id=""></div>
-                                </div>
-                            </div>
-                        </div>
+                        <h4>地區</h4>
+                        <select class="col form-control" name="" id="" @change="onLocationChange">
+                            <!-- <option value="" disabled>選擇區域</option> -->
+                            <option value="">選擇區域</option>
+                            <option value="" v-for="(option, i) in options" :key="i" :value="option" v-cloak>{{option}}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row categories">
                     <div class="col">
-                        <div class="row title">Categories</div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col-sm-2"><input type="checkbox" name="" id=""></div>
-                                    <div class="col-sm-10">All</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-2"><input type="checkbox" name="" id=""></div>
-                                    <div class="col-sm-10">Entertainment</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-2"><input type="checkbox" name="" id=""></div>
-                                    <div class="col-sm-10">Food</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-2"><input type="checkbox" name="" id=""></div>
-                                    <div class="col-sm-10">Learning</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-2"><input type="checkbox" name="" id=""></div>
-                                    <div class="col-sm-10">Outdoors</div>
-                                </div>
-                            </div>
+                        <h4>類型</h4>
+                        <div v-for="c in recordsClass">
+                            <input type="checkbox" name="recordClass" :id="'class' + c.id" @click="sort(c.id)">
+                            <label :for="'class' + c.id">{{c.name}}</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-9 main">
-                <div class="row sort-tags">
-                    <div class="col">
-                        Showing <span>15</span> results by... 
-                        <div class="tags">
-                            <div class="tag"></div>
-                        </div>
-                    </div>
+            <div class="col-sm-10 main">
+                <h5 class="row">顯示第 <span>{{(currentPage - 1) * recordsPerPage + 1}}</span> 到 <span>{{currentPage * recordsPerPage >= totalRecords ? totalRecords : currentPage * recordsPerPage}}</span> 筆資料，共 <span>{{totalRecords}}</span> 筆</h5>
+                <div class="tags row">
+                    <div class="tag"></div>
                 </div>
-                <div class="row blocks">
-                    <div class="col">
-                        <div class="row block">
-                            <div class="col-sm-3">
-                                <img src="" alt="">
-                            </div>
-                            <div class="col-sm-9">
-
-                            </div>
-                        </div>
-                    </div>
+                <div class="blocks">
+                    <card v-for="item in records" :key="item._id" :item="item" @load-text="item.isShortDesc = !item.isShortDesc"></card>          
                 </div>
+                <ul class="pagination">
+                    <li class="page-item" v-for="index in totalPages">
+                        <a class="page-link" href="#" @click.prevent="changePage(index)">{{index}}</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
